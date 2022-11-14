@@ -1,0 +1,192 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --hue: 250;
+
+  --bg-primary: hsl(var(--hue), 22%, 20%); /*As variáveis devem ser usadas quando iremos repetir uma mesma característica em diversas regios da página, facilitando uma eventual alteração no futuro*/
+
+  --fc-primary: hsl(var(--hue), 0%, 100%);
+  --fc-secondary: hsl(var(--hue), 50%, 80%);
+  --fc-secondary-dark: hsl(var(--hue), 100%, 11%);
+
+  font-size: 62.5%;
+
+  --fs-heading: clamp(4rem, 1rem + 5vw, 5.6rem); /*"clamp" serve para “prender” um valor entre um limite superior e um inferior, permitindo selecionar um valor intermediário dentro de uma faixa de valores entre um mínimo e um máximo definidos.*/
+  /*A medida VH e VW são iguais a 1/100 da altura/largura da viewport.*/
+  --fs-heading-small: clamp(3rem, 0.5rem + 3vw, 4rem);
+  --fs-body: 1.6rem;
+}
+
+body {
+  font-family: 'Epilogue', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--fc-primary);
+}
+
+.page {
+  max-width: clamp(33rem, 30rem + 60vw, 117rem);
+  padding: 0 2.5rem;
+  margin: 0 auto; /*auto para ele respeitar a proporção da tela e centralizar*/
+}
+
+header {
+  margin: 10rem 0 8rem;
+  text-align: center;
+}
+
+header p {
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: 3.2rem;
+  letter-spacing: 3px;
+  margin-bottom: 1.7rem;
+  text-transform: uppercase;
+  color: var(--fc-secondary);
+  animation-name: rightleft;
+  animation-duration: 700ms;
+  animation-delay: 350ms; /*toda vez que "delay" será necessário usar "backwards" ou "forwards" para não bugar o ponto inicial*/
+  animation-fill-mode: backwards; /*"backwards" define um novo ponto inicial no 100% do @keyframes*/
+}
+
+header h1 {
+  font-weight: 800;
+  font-size: var(--fs-heading);
+  line-height: 4.8rem;
+  animation-name: topdown;
+  animation-duration: 700ms;
+  animation-fill-mode: backwards;
+  /*"animation" aplica uma animação entre estilos.*/
+}
+
+main {
+  display: grid;
+  gap: 3.2rem;
+}
+
+.card {
+  position: relative;
+  animation-name: leftright;
+  animation-duration: 700ms;
+  animation-delay: 350ms;
+  animation-fill-mode: backwards;
+}
+
+img {
+  width: 100%; /*com 100% ele respeita/não vasa o espaço definido na caixa em que se encontra*/
+  height: auto; /*auto mantem a proporção da imagem, não vai distorcer*/
+}
+
+.card img {
+  height: 41.6rem;
+  object-fit: cover; /*"object-fit" serve para considerar a tag img como uma caixa e o source como um objeto*/
+  /*"cover" O conteúdo é dimensionado para manter sua proporção e preencher toda a caixa de conteúdo do elemento: seu tamanho de objeto concreto é resolvido como uma restrição de capa contra a largura e a altura usadas do elemento.*/
+  border-radius: 6px;
+  transition-property: all; /* "all" faz pegar todas as propriedades do ":hover" */
+  transition-duration: 200ms;
+  /*A propriedade "transition" é uma propriedade abreviada para transition-property, transition-duration, transition-timing-function e transition-delay. Ela permite definir a transição entre dois estados de um elemento. Estados diferentes podem ser definidos usando pseudo-classes tais como :hover ou :active; ou dinamicamente, usando javascript.*/
+  filter: brightness(0.5) saturate(1.5); /*edição da imagem*/
+}
+
+.card img:hover {
+  transform: scale(1.05); /*modifica o espaço do elemento*/
+  opacity: 0.5;
+} /*"hover" quando o mouse passa em cima do elemento*/
+
+.card h2 {
+  position: absolute;
+  bottom: 5.1rem;
+  left: 2.8rem;
+  font-weight: 800;
+  font-size: var(--fs-heading-small);
+  line-height: 4.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.3rem;
+}
+
+.card h2 span {
+  width: fit-content; /*"fit-content" é usado para o elemento ocupar o próprio espaço definido e não o da caixa principal a que pertence*/
+  height: 3.8rem; /*a tag "span" só recebe a propriedade "height" se for utilizado a tag "display"*/
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: 3.2rem;
+  color: var(--fc-secondary-dark);
+  background-color: var(--fc-primary);
+  padding: 0 1.6rem;
+  border-radius: 1.9rem;
+  display: inline-flex; /*a tag "span" não recebe algumas propriedades "block" por isso só recebe a propriedade "height" se for utilizado a tag "display"*/
+  align-items: center; /*só funciona com display "inline-flex"*/
+}
+
+@keyframes rightleft {
+  0% {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    /*translateX diz respeito amovimentação do eixo X*/
+  }
+} /*"@keyframes" é uma atrule que diz respeito aos pontos/tempo/divisões de tamanho de uma animação que vai de 0% a 100%, as instruções aqui passadas devem ser puxadas na propriedade "animation" dentro de um elemento*/
+
+@keyframes topdown {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px); 
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    /*translateY diz respeito amovimentação do eixo Y*/
+  }
+}
+
+@keyframes leftright {
+  0% {
+    opacity: 0;
+    transform: translateX(-15px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (min-width:700px) {
+
+  main {
+  grid-template-columns: 1fr 1fr; /*calcula por conta própria uma fração de espaço para cada elemento das colunas*/
+  }
+}
+
+@media (min-width:930px) {
+
+  main {
+    grid-template-areas: "cardA cardB cardB"
+    "cardC cardC cardD"; /*Criando a disposição das caixas através de seus nomes, só podera ser alterado caso remova o "grid-template-columns" do "main" anterior na cascata*/
+  }
+
+  main div:nth-child(1) {
+    grid-area: cardA;
+  }
+
+  main div:nth-child(2) {
+    grid-area: cardB;
+  }
+
+  main div:nth-child(3) {
+    grid-area: cardC;
+  }
+
+  main div:nth-child(4) {
+    grid-area: cardD;
+  } /*Nomeando as caixas*/
+}
